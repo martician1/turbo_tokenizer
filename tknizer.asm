@@ -17,7 +17,9 @@ show_tokens_prompt db "Would you like me to show some of the most common tokens?
 select_prompt db "How many tokens do you want me to show? $"
 show_tokens_message db "Here are the most common tokens:", 13, 10, '$'
 here_are_your_tokens db "Here are your tokens:", 13, 10, '$'
-success_message db " tokens written to TOKENS.TXT.", 13, 10, '$'
+extracted_message db "Extracted $"
+tokens_message db " tokens.", 13, 10, '$'
+success_message db "Tokens written to TOKENS.TXT.", 13, 10, '$'
 file_error_message db "File operation failiure.", 13, 10, '$'
 invalid_number_message db "Invalid number.", 13, 10, '$'
 new_line db 10, '$'
@@ -64,6 +66,16 @@ start:
 	call init_token_buffer
 	call init_token_pointers_1
 
+	PRINT_STRING extracted_message
+	mov ax, token_count_1
+	lea si, tmp
+	call itoa
+	mov bx, cx
+	mov tmp[bx], '$'
+
+	PRINT_STRING tmp
+	PRINT_STRING tokens_message
+
 	call create_token_multiset
 	call selection_sort
 
@@ -78,13 +90,6 @@ start:
 	call write_tokenized_output
 	call close_fd
 
-	mov ax, token_count_1
-	lea si, tmp
-	call itoa
-	mov bx, cx
-	mov tmp[bx], '$'
-
-	PRINT_STRING tmp
 	PRINT_STRING success_message
 
 __output_N_tokens:
