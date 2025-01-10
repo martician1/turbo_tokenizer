@@ -92,6 +92,9 @@ start:
 
 	PRINT_STRING success_message
 
+	mov ax, 1
+	call format_output_buffer
+
 __output_N_tokens:
 	PRINT_STRING show_tokens_prompt
 
@@ -123,9 +126,6 @@ check_valid_number:
 	jg invalid_number_error
 	inc bx
 	loop check_valid_number
-
-	mov ax, 1
-	call format_output_buffer
 
 	PRINT_STRING here_are_your_tokens
 
