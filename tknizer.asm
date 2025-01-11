@@ -83,8 +83,6 @@ start:
 	call format_output_buffer
 
 	lea dx, output_file
-	call delete_file
-	lea dx, output_file
 	call create_file
 	mov bx, 0fffh
 	call write_tokenized_output
